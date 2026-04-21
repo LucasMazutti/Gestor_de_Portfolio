@@ -1,7 +1,7 @@
 filmes = []
 
 while True:
-    primeiro_comando = str(input("Digite 'about' para saber mais ou 'quit' para sair: ")).lower()
+    primeiro_comando = str(input("Comandos: 'about', 'add', 'list', 'update', 'delete', 'quit': ")).lower()
     if primeiro_comando == "about":
         print("Gestor de filmes do Lucas Mazutti!")
         primeiro_comando = str(input("Digite add para adicionar filmes: ")).lower()
@@ -12,7 +12,7 @@ while True:
         else:
             for i in range(numero_filmes):
                 nome_filme = input(f"Digite o nome do filme {i+1}: ")
-                filmes.append(nome_filme)
+                filmes.append({"nome":nome_filme,"concluido":False, "historico":[]})
                 print(f"SUCESSO: Filme '{nome_filme}' adicionado.")
             print("Filmes adicionados!")
     elif primeiro_comando == "list":
@@ -21,14 +21,28 @@ while True:
         else:
             contador = 1
             for filme in filmes:
-                print(f"{contador}. {filme}")
+                print(f"{contador}. {filme['nome']} - Status: {filme['concluido']}")
                 contador += 1
+    elif primeiro_comando == "update":
+        nome_busca = input("Digite o nome do filme que deseja atualizar: ")
+        for filme in filmes:
+            if filme["nome"] == nome_busca:
+                novo_status = input("Filme conclído?(s/n): ")
+                if novo_status == "s":
+                    filme["concluido"] = True
+                else:
+                    filme["concluido"] = False
+                filme["historico"].append(("hoje", novo_status, nome_filme))
+    elif primeiro_comando == "delete":
+        nome_deletado = input("Digite o filme a ser deletado: ")
+        for filme in filmes:
+            if filme["nome"] == nome_deletado:
+                filmes.remove(filme)
     elif primeiro_comando == "quit":
         print("Você saiu do gestor de filmes, até logo!")
         break
     else:
-        print("Valor não reconhecido, digite 'about', 'add', 'list' ou 'quit'.")
-
+        print("Valor não reconhecido, Comandos: 'about', 'update', 'delete', 'quit': ")
 
 '''
 inicio - "about"
